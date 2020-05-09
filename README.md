@@ -1,2 +1,5 @@
 # CALIPSO_Scripts
-Processing of CMOD, chl-a, wind speed, and depolarization ratio
+This repository contains my calculation and processing of Clean Marine Aerosol Optical Depth (CMOD), chlorophyll-a concentration (chl-a), wind speed, & Ice as surface 532nmm integrated depolarization ratio. 
+
+These variables and techniques take advantage of a wide suite of data available from remote sensing instruments including NASA CALIPSO, MODIS Aqua, and the AMSR-E Sensor. 
+
