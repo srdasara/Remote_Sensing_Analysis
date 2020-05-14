@@ -45,13 +45,13 @@ cd /Users/srishtidasarathy/Documents/Bowman/Updated_Code_Processing_PhdPhaseOne/
 %%
 %%%%%% ----- Timeseries plots below ------ %%%%%%%%%
 % doc addaxis If needed
-
-
-black = rgb('black'); 
-grass_green = rgb('true green');
-ice_blue = rgb('lightish blue'); 
-ice_blue = rgb('dodger blue');
-wind_blue = rgb('royal blue');
+% 
+% 
+% black = rgb('black'); 
+% grass_green = rgb('true green');
+% ice_blue = rgb('lightish blue'); 
+% ice_blue = rgb('dodger blue');
+% wind_blue = rgb('royal blue');
 fig = figure; clf;
     
 set(fig, 'defaultAxesColorOrder', [black; grass_green; ice_blue]);
@@ -100,7 +100,7 @@ xtickangle(30)
    AX=findall(0,'type','axes'); 
    set(AX, 'FontSize', 15)
 
-   grid off
+   grid on
 % Make sure this is in the right order
  legend('CMOD', 'Chl-{\ita}', 'Ice'); 
  title('Timeseries: CMOD, Chlorophyll-{\ita} concentration, & Ice Depolarization Ratio (\delta)')
