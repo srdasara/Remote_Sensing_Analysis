@@ -48,9 +48,9 @@ cd /Users/srishtidasarathy/Documents/Bowman/Updated_Code_Processing_PhdPhaseOne/
 % [RHO,PVAL] = corr(a',b','Type','Spearman');
 
 %%
-[rho_no_lag_Ice_CMOD, pval_no_lag_Ice_CMOD]   = corr(CMOD_Monthly_avg, Depol_Ratio_Monthly_avg, 'Type', 'Spearman', 'Rows', 'complete');
-[rho_no_lag_Wind_CMOD, pval_no_lag_Wind_CMOD] = corr(CMOD_Monthly_avg, amsrmf_Monthly_avg, 'Type', 'Spearman','Rows', 'complete');
-[rho_no_lag_Chl_a_CMOD, pval_no_lag_Chl_a_CMOD] = corr(CMOD_Monthly_avg, Total_chl_a_monthly, 'Type', 'Spearman','Rows', 'complete');
+[rho_no_lag_Ice_CMOD, pval_no_lag_Ice_CMOD]   = corr(CMOD_Monthly_avg, Depol_Ratio_Monthly_avg, 'Type', 'Spearman', 'Rows', 'pairwise');
+[rho_no_lag_Wind_CMOD, pval_no_lag_Wind_CMOD] = corr(CMOD_Monthly_avg, amsrmf_Monthly_avg, 'Type', 'Spearman','Rows', 'pairwise');
+[rho_no_lag_Chl_a_CMOD, pval_no_lag_Chl_a_CMOD] = corr(CMOD_Monthly_avg, Total_chl_a_monthly, 'Type', 'Spearman','Rows', 'pairwise');
   
 %% are ranks tied or not when performing spearman's? here's a brief check to see if values are the same. 
 
@@ -69,18 +69,20 @@ for iShift=1:6
     
     CMOD_negative_shift = [CMOD_Monthly_avg(iShift + 1 : end)  ; nan(iShift, 1)];
     
+          
+        % This is the negative lag. CMOD Night monthly average is shifted
+        % to the left by each iteration. Here I am choosing a 6 period iteration, or half a
+        % year, to find where the corr coefs line up best for all my data. 
+         
+        
+    CMOD_positive_shift = [nan(iShift, 1) ; CMOD_Monthly_avg(1 : end - iShift)];
+    
         % This is the positive lag. CMOD Night monthly average is shifted
         % to the right by each iteration. Here I am choosing a 6 period iteration, or half a
         % year, to find where the corr coefs line up best for all my data. 
         
-    CMOD_positive_shift = [nan(iShift, 1) ; CMOD_Monthly_avg(1 : end - iShift)];
-    
-        % This is the negative lag. CMOD Night monthly average is shifted
-        % to the left by each iteration. Here I am choosing a 6 period iteration, or half a
-        % year, to find where the corr coefs line up best for all my data. 
-        
-    [rho_pos_Ice_CMOD, pval_pos_Ice_CMOD] = corr(CMOD_positive_shift, Depol_Ratio_Monthly_avg, 'Type', 'Spearman', 'Rows', 'complete');
-    [rho_neg_Ice_CMOD, pval_neg_Ice_CMOD] = corr(CMOD_negative_shift, Depol_Ratio_Monthly_avg, 'Type', 'Spearman', 'Rows', 'complete');
+    [rho_pos_Ice_CMOD, pval_pos_Ice_CMOD] = corr(CMOD_positive_shift, Depol_Ratio_Monthly_avg, 'Type', 'Spearman', 'Rows', 'pairwise');
+    [rho_neg_Ice_CMOD, pval_neg_Ice_CMOD] = corr(CMOD_negative_shift, Depol_Ratio_Monthly_avg, 'Type', 'Spearman', 'Rows', 'pairwise');
     
     rho_positive_lag_Ice_CMOD(iShift,1) = rho_pos_Ice_CMOD;
     rho_negative_lag_Ice_CMOD(iShift,1) = rho_neg_Ice_CMOD;
@@ -88,8 +90,8 @@ for iShift=1:6
     pval_positive_lag_Ice_CMOD(iShift, 1) = pval_pos_Ice_CMOD; 
     pval_negative_lag_Ice_CMOD(iShift, 1) = pval_neg_Ice_CMOD;
     
-    [rho_pos_Wind_CMOD, pval_pos_Wind_CMOD] = corr(CMOD_positive_shift, amsrmf_Monthly_avg, 'Type', 'Spearman', 'Rows', 'complete');
-    [rho_neg_Wind_CMOD, pval_neg_Wind_CMOD] = corr(CMOD_negative_shift, amsrmf_Monthly_avg, 'Type', 'Spearman', 'Rows', 'complete');
+    [rho_pos_Wind_CMOD, pval_pos_Wind_CMOD] = corr(CMOD_positive_shift, amsrmf_Monthly_avg, 'Type', 'Spearman', 'Rows', 'pairwise');
+    [rho_neg_Wind_CMOD, pval_neg_Wind_CMOD] = corr(CMOD_negative_shift, amsrmf_Monthly_avg, 'Type', 'Spearman', 'Rows', 'pairwise');
     
     rho_positive_lag_Wind_CMOD(iShift,1) = rho_pos_Wind_CMOD;
     rho_negative_lag_Wind_CMOD(iShift,1) = rho_neg_Wind_CMOD;
@@ -97,8 +99,8 @@ for iShift=1:6
     pval_positive_lag_Wind_CMOD(iShift, 1) = pval_pos_Wind_CMOD; 
     pval_negative_lag_Wind_CMOD(iShift,1)  = pval_neg_Wind_CMOD;
     
-    [rho_pos_Chl_a_CMOD, pval_pos_Chl_a_CMOD] = corr(CMOD_positive_shift, Total_chl_a_monthly, 'Type', 'Spearman', 'Rows', 'complete');
-    [rho_neg_Chl_a_CMOD, pval_neg_Chl_a_CMOD] = corr(CMOD_negative_shift, Total_chl_a_monthly, 'Type', 'Spearman', 'Rows', 'complete');
+    [rho_pos_Chl_a_CMOD, pval_pos_Chl_a_CMOD] = corr(CMOD_positive_shift, Total_chl_a_monthly, 'Type', 'Spearman', 'Rows', 'pairwise');
+    [rho_neg_Chl_a_CMOD, pval_neg_Chl_a_CMOD] = corr(CMOD_negative_shift, Total_chl_a_monthly, 'Type', 'Spearman', 'Rows', 'pairwise');
     
     rho_positive_lag_Chl_a_CMOD(iShift,1) = rho_pos_Chl_a_CMOD;
     rho_negative_lag_Chl_a_CMOD(iShift,1) = rho_neg_Chl_a_CMOD;
@@ -139,14 +141,185 @@ pval_Wind_CMOD = [pval_negative_lag_Wind_CMOD_flipped ; pval_no_lag_Wind_CMOD ; 
 
 pval_Ice_CMOD = [pval_negative_lag_Ice_CMOD_flipped ; pval_no_lag_Ice_CMOD ; pval_positive_lag_Ice_CMOD ] ; 
 
+
+
+
+%%
+%
+fig = figure(1); clf;  
+
+% subplot(3,1,1);
+plot(-6:6, spearman_rho_Wind_CMOD,...
+    'LineWidth',2,...
+    'Color', wind_blue) 
+grid on
+
+AX=findobj(fig,'Type','Axes'); 
+set(AX, 'FontSize', 16)    
+
+set(AX,'YAxisLocation','origin')
+set(AX, 'Ylim', [-1 1]); %ax.YLim = [-2 2];
+set(AX, 'YTick', -1:0.2:1 )       
+
+set(AX, 'XAxisLocation', 'origin')
+set(AX, 'XTick', -6:1:6)
+
+[ax,h1] = suplabel('Spearman''s rho', 'y');  %#ok<ASGLU>
+[ax,h2] = suplabel('Lag Period, Monthly','x');   %#ok<ASGLU>
+
+set(h1,'FontSize', 18)
+set(h2, 'FontSize', 18)
+
+title('CMOD and Wind')
+
+%%
+saveas(gcf, 'Spearmans_rho_CMOD_Wind', 'fig') ; 
+saveas(gcf, 'Spearmans_rho_CMOD_Wind', 'png') ; 
+
+%%
+fig = figure(2); clf;
+
+plot(-6:6, spearman_rho_Ice_CMOD, ... 
+    'LineWidth', 2,...
+    'Color', ice_blue)
+
+grid on
+
+AX=findobj(fig,'Type','Axes'); 
+set(AX, 'FontSize', 16)    
+
+set(AX,'YAxisLocation','origin')
+set(AX, 'Ylim', [-1 1]); 
+set(AX, 'YTick', -1 : 0.2 : 1 )       
+
+set(AX, 'XAxisLocation', 'origin')
+set(AX, 'XTick', -6:1:6)
+
+[ax,h1] = suplabel('Spearman''s rho', 'y');  %#ok<ASGLU>
+[ax,h2] = suplabel('Lag Period, Monthly','x');   %#ok<ASGLU>
+
+set(h1,'FontSize', 18)
+set(h2, 'FontSize', 18)
+
+title('CMOD and Ice') 
+
+%%
+saveas(gcf, 'Spearmans_rho_CMOD_Ice', 'fig') ; 
+saveas(gcf, 'Spearmans_rho_CMOD_Ice', 'png') ; 
+
+%%
+% subplot(3,1,3);
+
+fig = figure(3); clf; 
+
+plot(-6:6, spearman_rho_Chl_a_CMOD, ...
+    'LineWidth', 2,...
+    'Color', grass_green)
+grid on
+
+
+AX=findobj(fig,'Type','Axes'); 
+set(AX, 'FontSize', 16)    
+
+set(AX,'YAxisLocation','origin')
+set(AX, 'Ylim', [-1 1]); %ax.YLim = [-2 2];
+set(AX, 'YTick', -1:0.2:1 )       
+
+set(AX, 'XAxisLocation', 'origin')
+set(AX, 'XTick', -6:1:6)
+
+[ax,h1] = suplabel('Spearman''s rho', 'y');  %#ok<ASGLU>
+[ax,h2] = suplabel('Lag Period, Monthly','x');   %#ok<ASGLU>
+
+set(h1,'FontSize', 18)
+set(h2, 'FontSize', 18)
+
+%%
+
+
+saveas(gcf, 'Spearmans_rho_CMOD_chl_a', 'fig') ; 
+saveas(gcf, 'Spearmans_rho_CMOD_chl_a', 'png') ; 
+
+
+
+
+
+
+
+
+% %%
+% saveas(gcf, 'spearmans_rho_6mthlag_CMOD_Wind_Ice_Chl_a', 'fig') ; 
+% 
+% saveas(gcf, 'spearmans_rho_6mthlag_CMOD_Wind_Ice_Chl_a.png') ; 
+
+%%
+
+
+
+
+%%
+%
+fig = figure; clf;  
+
+subplot(3,1,1);
+plot(-6:6, spearman_rho_Wind_CMOD,'-kd',...
+    'LineWidth',2,...
+    'MarkerSize', 8,...
+    'MarkerFaceColor', wind_blue) 
+grid on
+
+title('CMOD and Wind')
+
+subplot(3,1,2); 
+plot(-6:6, spearman_rho_Ice_CMOD, '-kd', ... 
+    'LineWidth', 2,...
+    'MarkerSize', 8,...
+    'MarkerFaceColor', ice_blue)
+grid on
+
+title('CMOD and Ice') 
+
+subplot(3,1,3);
+plot(-6:6, spearman_rho_Chl_a_CMOD, '-kd', ...
+    'LineWidth', 2,...
+    'MarkerSize', 8,...
+    'MarkerFaceColor', grass_green)
+grid on
+
+title('CMOD and Chlorophyll') 
+
+AX=findobj(fig,'Type','Axes'); 
+set(AX, 'FontSize', 13)    
+set(AX,'YAxisLocation','origin')
+set(AX, 'XAxisLocation', 'origin')
+set(AX, 'XTick', -6:1:6)
+set(AX, 'YTick', -1: 0.1 : 1 )
+
+[ax,h1] = suplabel('Spearman''s rho', 'y');  %#ok<ASGLU>
+[ax,h2] = suplabel('Lag Period','x');  
+
+set(h1, 'FontWeight', 'bold','FontSize', 20)
+set(h2, 'FontWeight', 'bold', 'FontSize', 20)
+
+
+%%
+saveas(gcf, 'spearmans_rho_6mthlag_CMOD_Wind_Ice_Chl_a', 'fig') ; 
+
+saveas(gcf, 'spearmans_rho_6mthlag_CMOD_Wind_Ice_Chl_a.png') ; 
+
+
+
 %%
 
 make_it_tight = true;
 subplot = @(m,n,p) subtightplot (m, n, p, [0.005 0.5], [0.125 0.125], [0.125 0.125]);
 if ~make_it_tight,  clear subplot;  end
 
+%%
 clear plot
 fig = figure(4);clf; 
+
+
 
 ax(1) = subplot(3,1,1);
 
@@ -203,7 +376,6 @@ AX=findall(0,'type','axes');
 set(AX, 'FontSize', 16)
 % set(AX, 'XTick', -6:1:6)
 
-%% Annotations if needed: 
 
 an(1) = annotation(fig,'textbox',...
     [0.617957746478874 0.799442896935933 0.248239436619719 0.0668523676880223],...
@@ -235,6 +407,9 @@ an(3) = annotation(fig, 'textbox', ...
     'FontSize',14,...
     'FontName','Helvetica-Narrow',...
     'FitBoxToText','off');
+
+
+
 
  
 
@@ -270,6 +445,14 @@ an(6) = annotation(fig, 'textbox', ...
     'FontSize',14,...
     'FontName','Helvetica-Narrow',...
     'FitBoxToText','off');
+
+
+
+
+
+
+
+
 
 
 
