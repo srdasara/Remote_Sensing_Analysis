@@ -1,10 +1,5 @@
-%%Now, taking my seasonal grids of CMOD, Ice, Winds, and CHL-A, I will run a correlation through all of them and try and produce a surf plot 
+%% Spatial Correlation Script between all vars
 
-% THIS SCRIPT IS SAVED IN 
-
-cd /Users/srishtidasarathy/Documents/Bowman/Updated_Code_Processing_PhdPhaseOne/Srishti/Analysis_and_Vars_For_Publication
-
-%%
 
 load Total_timetable_amsrmf.mat
 load Total_timetable_CMOD.mat
