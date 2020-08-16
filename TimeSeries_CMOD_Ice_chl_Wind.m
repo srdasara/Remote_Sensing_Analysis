@@ -61,9 +61,23 @@ set(fig, 'defaultAxesColorOrder', [black; grass_green; ice_blue]);
    aa_splot(x, CMOD_Monthly_avg, '-',...
        'linewidth', 1.5, ...
        'Color', black);
-%    xticks(times(1) : calmonths(12) :times(end))
-set(gca, 'XTick', (times(1) : calmonths(6) : times(end)) );
-xtickangle(30)
+% %    xticks(times(1) : calmonths(12) :times(end))
+% calendarmonths = times(1) : calmonths(6) : times(end); 
+% X = month(calendarmonths); 
+set(gca, 'XTick', (times(1) : calmonths(6) : times(end)));
+
+ xtickformat('MM-yyyy')
+h = gca; % Get axis to modify
+h.XAxis.MinorTick = 'on'; % Must turn on minor ticks if they are off
+h.XAxis.MinorTickValues = times(1) : calmonths(3) : times(end); % 
+grid on
+h.XMinorGrid = 'on';
+% 
+
+
+% set(gca, 'XTick', X);
+
+xtickangle(35)
    
 % CHLOROPHYLL
    addaxis(x,  Total_chl_a_monthly,'-',...
@@ -98,13 +112,22 @@ xtickangle(30)
 %    
 
    AX=findall(0,'type','axes'); 
-   set(AX, 'FontSize', 15)
+   set(AX, 'FontSize', 25)
 
    grid on
 % Make sure this is in the right order
  legend('CMOD', 'Chl-{\ita}', 'Ice'); 
- title('Timeseries: CMOD, Chlorophyll-{\ita} concentration, & Ice Depolarization Ratio (\delta)')
+%  title('Timeseries: CMOD, Chlorophyll-{\ita} concentration, & Ice Depolarization Ratio (\delta)')
  
+ %%
+ 
+ set(gcf,'PaperPositionMode','auto')
+%  set(gcf,'PaperPosition','fillpage') 
+%  orient(fig,'portrait')
+
+print(fig,'Updated_TimeSeries_CMOD_Ice_CHL_for_publication_v5.png','-dpng','-r96');       %  *// 300 dpi
+%  print(gcf, 'June_test.pdf', '-dpdf', '-r96', '-fillpage');
+
  %%
  
 wind_blue = rgb('royal blue');
@@ -117,8 +140,16 @@ set(fig, 'defaultAxesColorOrder', [black; wind_blue]);
    aa_splot(x, CMOD_Monthly_avg, '-',...
        'linewidth', 1.5, ...
        'Color', black);
-set(gca, 'XTick', (times(1) : calmonths(6) : times(end)) );
-xtickangle(30)
+set(gca, 'XTick', (times(1) : calmonths(6) : times(end)));
+
+ xtickformat('MM-yyyy')
+h = gca; % Get axis to modify
+h.XAxis.MinorTick = 'on'; % Must turn on minor ticks if they are off
+h.XAxis.MinorTickValues = times(1) : calmonths(3) : times(end); % 
+grid on
+h.XMinorGrid = 'on';
+
+xtickangle(35)
 
 % WIND
     
@@ -134,15 +165,24 @@ xtickangle(30)
    addaxislabel(2,'Wind Speed (m s^{-1})');
 %    
    AX=findall(0,'type','axes'); 
-   set(AX, 'FontSize', 15)
+   set(AX, 'FontSize', 25)
 
    grid on
    
 % Make sure this is in the right order
  legend('CMOD', 'Wind Speed'); 
- title('Timeseries: CMOD & Wind Speed')
+%  title('Timeseries: CMOD & Wind Speed')
  
 
+%%
+ 
+set(gcf,'PaperPositionMode','auto')
+% set(gcf,'PaperPosition','fillpage') 
+
+print(gcf,'Updated_TimeSeries_CMOD_Wind_for_publication_v5.png','-dpng','-r96');       %  *// 300 dpi
+
+
+%%
 
 
 
@@ -150,15 +190,132 @@ xtickangle(30)
 
 
 
+%%
+%%%%%% ----- Timeseries plots below ------ %%%%%%%%%
+% doc addaxis If needed
+% 
+% 
+% black = rgb('black'); 
+% grass_green = rgb('true green');
+% ice_blue = rgb('lightish blue'); 
+% ice_blue = rgb('dodger blue');
+% wind_blue = rgb('royal blue');
+fig = figure; clf;
+
+subplot(2,1,1)
+set(fig, 'defaultAxesColorOrder', [black; grass_green; ice_blue]);
+
+   x = times;
+   
+   aa_splot(x, CMOD_Monthly_avg, '-',...
+       'linewidth', 1.5, ...
+       'Color', black);
+% %    xticks(times(1) : calmonths(12) :times(end))
+% calendarmonths = times(1) : calmonths(6) : times(end); 
+% X = month(calendarmonths); 
+set(gca, 'XTick', (times(1) : calmonths(6) : times(end)));
+
+ xtickformat('MM-yyyy')
+h = gca; % Get axis to modify
+h.XAxis.MinorTick = 'on'; % Must turn on minor ticks if they are off
+h.XAxis.MinorTickValues = times(1) : calmonths(3) : times(end); % 
+grid on
+h.XMinorGrid = 'on';
+% 
 
 
+% set(gca, 'XTick', X);
 
+xtickangle(35)
+   
+% CHLOROPHYLL
+   addaxis(x,  Total_chl_a_monthly,'-',...
+       'linewidth', 1.5,...
+       'MarkerSize', 4,...
+       'MarkerFaceColor', grass_green,...
+       'MarkerEdgeColor', grass_green,...
+       'Color', grass_green);
 
+% ICE
+   addaxis(x,  Depol_Ratio_Monthly_avg,'-',...
+    'linewidth', 1.5,... 
+    'MarkerSize', 4,...
+    'MarkerFaceColor', ice_blue,...
+    'MarkerEdgeColor', ice_blue,...
+    'Color', ice_blue);
+%    
+% % WIND
+%     
+%    addaxis(x, amsrmf_Monthly_avg, 'x-',...
+%     'linewidth', 1.5,... 
+%     'MarkerSize', 4,...
+%     'MarkerFaceColor', wind_blue,...
+%     'MarkerEdgeColor', wind_blue,...
+%     'Color', wind_blue);
+%    
+   
+   addaxislabel(1,'CMOD Night');
+   addaxislabel(2,'Chl-{\ita} (mg m^{-3})');
+   addaxislabel(3,'Ice'); 
+%    addaxislabel(4, 'Wind'); 
+%    
 
+   AX=findall(0,'type','axes'); 
+   set(AX, 'FontSize', 25)
 
+   grid on
+% Make sure this is in the right order
+ legend('CMOD', 'Chl-{\ita}', 'Ice'); 
+%  title('Timeseries: CMOD, Chlorophyll-{\ita} concentration, & Ice Depolarization Ratio (\delta)')
+ 
+subplot(2,1,2)
+ 
+ 
+wind_blue = rgb('royal blue');
+% fig = figure; clf;
+    
+set(fig, 'defaultAxesColorOrder', [black; wind_blue]);
 
+   x = times;
+   
+   aa_splot(x, CMOD_Monthly_avg, '-',...
+       'linewidth', 1.5, ...
+       'Color', black);
+set(gca, 'XTick', (times(1) : calmonths(6) : times(end)));
 
+ xtickformat('MM-yyyy')
+h = gca; % Get axis to modify
+h.XAxis.MinorTick = 'on'; % Must turn on minor ticks if they are off
+h.XAxis.MinorTickValues = times(1) : calmonths(3) : times(end); % 
+grid on
+h.XMinorGrid = 'on';
 
+xtickangle(35)
+
+% WIND
+    
+   addaxis(x, amsrmf_Monthly_avg, '-',...
+    'linewidth', 1.5,... 
+    'MarkerSize', 4,...
+    'MarkerFaceColor', wind_blue,...
+    'MarkerEdgeColor', wind_blue,...
+    'Color', wind_blue);
+   
+   
+   addaxislabel(1,'CMOD Night');
+   addaxislabel(2,'Wind Speed (m s^{-1})');
+%    
+   AX=findall(0,'type','axes'); 
+   set(AX, 'FontSize', 25)
+
+   grid on
+   
+% Make sure this is in the right order
+ legend('CMOD', 'Wind Speed'); 
+%  title('Timeseries: CMOD & Wind Speed')
+ 
+
+%%
 
 
 
